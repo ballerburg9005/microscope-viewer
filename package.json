@@ -1,0 +1,30 @@
+{
+  "name": "microscope-viewer",
+  "version": "1.0.0",
+  "description": "Electron viewer for non-UVC Geek Szitman supercamera USB microscopes.",
+  "main": "src/main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JacobFV/microscope-viewer.git"
+  },
+  "scripts": {
+    "start": "electron .",
+    "bootstrap": "npm install && python3 -m venv .venv && .venv/bin/pip install --upgrade pip && .venv/bin/pip install -r requirements.txt",
+    "check:camera": ".venv/bin/python bridge/supercamera_bridge.py list",
+    "setup:udev": "sudo ./scripts/install-udev-rule.sh",
+    "test": "node --check src/main.js && node --check src/preload.js && .venv/bin/python -m py_compile bridge/supercamera_bridge.py"
+  },
+  "keywords": [
+    "electron",
+    "microscope",
+    "supercamera",
+    "usb",
+    "non-uvc"
+  ],
+  "author": "JacobFV",
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^42.3.0"
+  }
+}

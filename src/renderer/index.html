@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Microscope Viewer</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="viewer">
+        <div class="video-stage" id="stage">
+          <img id="frame" alt="Microscope video frame" />
+          <div class="empty-state" id="emptyState">
+            <div class="device-mark">0329:2022</div>
+            <h1>Microscope Viewer</h1>
+            <p>Connect to the Geek Szitman supercamera bridge to view frames from the USB microscope.</p>
+          </div>
+        </div>
+      </section>
+
+      <aside class="control-panel">
+        <header>
+          <div>
+            <p class="eyebrow">USB microscope</p>
+            <h2>Capture</h2>
+          </div>
+          <span class="status" id="status">Idle</span>
+        </header>
+
+        <div class="section">
+          <label for="deviceSelect">Device</label>
+          <select id="deviceSelect"></select>
+          <div class="button-row">
+            <button id="refreshButton" type="button">Refresh</button>
+            <button id="startButton" type="button" class="primary">Start</button>
+            <button id="stopButton" type="button">Stop</button>
+          </div>
+        </div>
+
+        <div class="section stats-grid">
+          <div>
+            <span>Resolution</span>
+            <strong id="resolution">640 x 480</strong>
+          </div>
+          <div>
+            <span>Frames</span>
+            <strong id="frames">0</strong>
+          </div>
+          <div>
+            <span>FPS</span>
+            <strong id="fps">0.0</strong>
+          </div>
+          <div>
+            <span>Serial</span>
+            <strong id="serial">-</strong>
+          </div>
+        </div>
+
+        <div class="section">
+          <button id="snapshotButton" type="button" class="wide">Save snapshot</button>
+        </div>
+
+        <div class="section log-section">
+          <div class="log-header">
+            <label>Bridge log</label>
+            <button id="clearLogButton" type="button">Clear</button>
+          </div>
+          <pre id="log"></pre>
+        </div>
+      </aside>
+    </main>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>
