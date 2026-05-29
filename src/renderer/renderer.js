@@ -6,6 +6,7 @@ const snapshotButton = document.getElementById('snapshotButton');
 const clearLogButton = document.getElementById('clearLogButton');
 const statusEl = document.getElementById('status');
 const frameEl = document.getElementById('frame');
+const stageEl = document.getElementById('stage');
 const emptyState = document.getElementById('emptyState');
 const resolutionEl = document.getElementById('resolution');
 const framesEl = document.getElementById('frames');
@@ -21,6 +22,7 @@ let fpsWindowFrames = 0;
 function setStatus(text, state = '') {
   statusEl.textContent = text;
   statusEl.className = `status ${state}`.trim();
+  stageEl.classList.toggle('is-live', state === 'live');
 }
 
 function log(message, level = 'info') {

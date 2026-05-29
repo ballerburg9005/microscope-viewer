@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/cover.png" alt="Microscope Viewer" width="100%" />
+</p>
+
 # Microscope Viewer
 
 Desktop viewer for non-UVC USB microscopes using the Geek Szitman `supercamera` protocol. It was built for the microscope detected as:

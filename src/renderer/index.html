@@ -11,19 +11,27 @@
       <section class="viewer">
         <div class="video-stage" id="stage">
           <img id="frame" alt="Microscope video frame" />
+          <div class="stage-overlay">
+            <span class="live-pill"><span class="live-dot"></span>Live</span>
+          </div>
           <div class="empty-state" id="emptyState">
+            <img class="empty-logo" src="../../assets/icon.svg" alt="" width="96" height="96" />
             <div class="device-mark">0329:2022</div>
             <h1>Microscope Viewer</h1>
             <p>Connect to the Geek Szitman supercamera bridge to view frames from the USB microscope.</p>
+            <div class="empty-hint">Pick a device, then press <kbd>Start</kbd></div>
           </div>
         </div>
       </section>
 
       <aside class="control-panel">
         <header>
-          <div>
-            <p class="eyebrow">USB microscope</p>
-            <h2>Capture</h2>
+          <div class="brand">
+            <img class="brand-logo" src="../../assets/icon.svg" alt="" width="38" height="38" />
+            <div>
+              <p class="eyebrow">USB microscope</p>
+              <h2>Capture</h2>
+            </div>
           </div>
           <span class="status" id="status">Idle</span>
         </header>
@@ -58,7 +66,10 @@
         </div>
 
         <div class="section">
-          <button id="snapshotButton" type="button" class="wide">Save snapshot</button>
+          <button id="snapshotButton" type="button" class="wide">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            Save snapshot
+          </button>
         </div>
 
         <div class="section log-section">

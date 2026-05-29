@@ -1,0 +1,81 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#121a20"/>
+      <stop offset="1" stop-color="#0a0e11"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.72" cy="0.45" r="0.5">
+      <stop offset="0" stop-color="#1f8f63" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#1f8f63" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#bfeeff"/>
+      <stop offset="0.5" stop-color="#7fd6f5"/>
+      <stop offset="1" stop-color="#34b985"/>
+    </linearGradient>
+    <linearGradient id="lens" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9fe9ff"/>
+      <stop offset="1" stop-color="#2aa776"/>
+    </linearGradient>
+    <pattern id="checker" width="48" height="48" patternUnits="userSpaceOnUse">
+      <rect width="48" height="48" fill="#0c1216"/>
+      <rect width="24" height="24" fill="#10181d"/>
+      <rect x="24" y="24" width="24" height="24" fill="#10181d"/>
+    </pattern>
+    <clipPath id="scope-clip"><circle cx="960" cy="320" r="210"/></clipPath>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#bg)"/>
+  <rect width="1280" height="640" fill="url(#glow)"/>
+
+  <!-- viewport on the right -->
+  <g>
+    <circle cx="960" cy="320" r="210" fill="url(#checker)"/>
+    <g clip-path="url(#scope-clip)">
+      <circle cx="960" cy="320" r="210" fill="#0b0f12" opacity="0.25"/>
+      <!-- microscope -->
+      <g transform="translate(960 320) rotate(-16) scale(0.92) translate(-256 -256)" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M150 388 q0 -20 22 -20 h128 q22 0 22 20 v6 q0 12 -16 12 h-140 q-16 0 -16 -12 z" fill="url(#metal)"/>
+        <rect x="218" y="330" width="20" height="48" fill="url(#metal)"/>
+        <rect x="150" y="300" width="148" height="20" rx="8" fill="url(#metal)"/>
+        <path d="M276 330 q34 0 34 -40 v-150 q0 -22 -22 -22 h-10" fill="none" stroke="url(#metal)" stroke-width="30"/>
+        <rect x="244" y="118" width="36" height="150" rx="18" fill="url(#metal)"/>
+        <path d="M248 268 h28 l-7 30 h-14 z" fill="url(#metal)"/>
+        <circle cx="262" cy="300" r="9" fill="url(#lens)"/>
+        <rect x="238" y="92" width="48" height="34" rx="14" fill="url(#metal)"/>
+        <circle cx="262" cy="98" r="13" fill="url(#lens)"/>
+        <circle cx="312" cy="250" r="20" fill="#0a0e11"/>
+        <circle cx="312" cy="250" r="20" fill="none" stroke="url(#metal)" stroke-width="9"/>
+      </g>
+    </g>
+    <circle cx="960" cy="320" r="210" fill="none" stroke="#3fae7e" stroke-width="3" stroke-opacity="0.7"/>
+    <!-- viewfinder corner brackets -->
+    <g stroke="#7fd6f5" stroke-width="4" stroke-linecap="round" opacity="0.85">
+      <path d="M724 150 h-40 v40"/><path d="M1196 150 h40 v40"/>
+      <path d="M724 490 h-40 v-40"/><path d="M1196 490 h40 v-40"/>
+    </g>
+    <!-- live badge -->
+    <g transform="translate(884 96)">
+      <rect width="152" height="40" rx="20" fill="#184d3a"/>
+      <circle cx="26" cy="20" r="7" fill="#5ff0b0"/>
+      <text x="46" y="27" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="#b7f4d8">LIVE 640×480</text>
+    </g>
+  </g>
+
+  <!-- left text -->
+  <g transform="translate(96 0)">
+    <g transform="translate(0 196)">
+      <rect width="142" height="34" rx="17" fill="none" stroke="#3f5667" stroke-width="1.5"/>
+      <text x="20" y="23" font-family="ui-monospace, SFMono-Regular, monospace" font-size="15" font-weight="700" fill="#9fd0f0">0329:2022</text>
+    </g>
+    <text x="0" y="300" font-family="Inter, system-ui, sans-serif" font-size="68" font-weight="700" fill="#eef3f7">Microscope Viewer</text>
+    <text x="2" y="352" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="500" fill="#aebbc6">Desktop capture for non-UVC USB microscopes</text>
+    <text x="2" y="386" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="500" fill="#aebbc6">via the Geek Szitman supercamera protocol.</text>
+    <!-- feature pills -->
+    <g transform="translate(0 430)" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600">
+      <g><rect width="170" height="38" rx="10" fill="#151b20" stroke="#26323c"/><text x="20" y="25" fill="#c8d3dc">Direct USB capture</text></g>
+      <g transform="translate(186 0)"><rect width="162" height="38" rx="10" fill="#151b20" stroke="#26323c"/><text x="20" y="25" fill="#c8d3dc">Electron + Python</text></g>
+      <g transform="translate(364 0)"><rect width="148" height="38" rx="10" fill="#151b20" stroke="#26323c"/><text x="20" y="25" fill="#c8d3dc">JPEG snapshots</text></g>
+    </g>
+  </g>
+</svg>

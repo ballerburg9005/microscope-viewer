@@ -11,4 +11,7 @@ coverage/
 *.jpg
 *.jpeg
 *.png
-!.github/
+
+# Branding assets are checked in (the *.png rule above is for captured frames/snapshots)
+!assets/*.png
+!.github/social-preview.png

@@ -16,8 +16,9 @@ function createWindow() {
     height: 760,
     minWidth: 900,
     minHeight: 620,
-    backgroundColor: '#101418',
+    backgroundColor: '#0d1217',
     title: 'Microscope Viewer',
+    icon: path.join(appRoot, 'assets', 'icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
