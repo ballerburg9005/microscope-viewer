@@ -1,1 +1,1 @@
-supercamera==0.1.0
+pyusb>=1.2.1,<2

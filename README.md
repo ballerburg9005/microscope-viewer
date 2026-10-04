@@ -13,8 +13,10 @@ Desktop viewer for non-UVC USB microscopes using the Geek Szitman `supercamera` 
 ## Features
 
 - Direct USB capture for non-UVC `supercamera` devices.
+- Packet-aware frame assembly using the protocol frame ID and declared packet length.
+- High-quality desktop preview with device-pixel-ratio rendering, high-quality scaling, and conservative sharpening.
+- Preview enhancement can be disabled at runtime; saved snapshots always remain the untouched camera JPEG.
 - Electron UI with device refresh, start/stop controls, live image display, FPS/frame counters, and bridge logs.
-- JPEG snapshot saving.
 - udev setup script for user-level USB access.
 - Source-only repository with repeatable Node and Python setup.
 
@@ -22,15 +24,16 @@ Desktop viewer for non-UVC USB microscopes using the Geek Szitman `supercamera` 
 
 This app exists to make the microscope usable from the desktop without relying on `/dev/video0`. The device is visible on the USB bus, but it does not expose itself as a standard UVC/V4L2 webcam, so Electron's normal `getUserMedia()` path cannot see it.
 
-The app uses Electron for the UI and a small Python bridge for direct USB capture through the `supercamera` driver. The bridge emits JPEG frames to the Electron main process, and the renderer displays them as a live feed.
+The app uses Electron for the UI and a small Python/PyUSB bridge for direct USB capture. The bridge understands the packet structure used by `com.useeplus.protocol`, reconstructs complete JPEGs by frame ID, and sends them to Electron as JSON-line events.
 
-## Constraints That Drove The Design
+## Image quality
 
-- The microscope reports `Vendor Specific Class`, not USB Video Class.
-- Linux currently attaches no kernel driver to `0329:2022`, so no `/dev/video*` node appears.
-- Browser webcam APIs only enumerate standard camera devices, so they are insufficient for this hardware.
-- Direct USB access usually needs a udev permission rule, otherwise the bridge may need root.
-- The available reverse-engineered driver reports this camera stream as JPEG frames at `640 x 480`, regardless of the marketing `1600x` label.
+The known `0329:2022` / `2ce3:3828` protocol produces JPEG frames that decode to `640 x 480` on tested hardware. The viewer does **not** invent extra sensor detail or re-encode saved photos. Instead it improves the desktop experience in two safe ways:
+
+1. USB packets are assembled according to their declared length and frame ID, avoiding accidental mixing of bytes between adjacent frames on the `0329:2022` variant.
+2. The live preview is rendered to a HiDPI canvas with high-quality resampling and a mild sharpening pass. This is preview-only and can be switched back to **Raw** at any time.
+
+The resolution shown in the UI is read from each JPEG's SOF metadata rather than being blindly hard-coded.
 
 ## Requirements
 
@@ -80,7 +83,9 @@ timeout 10s .venv/bin/python bridge/supercamera_bridge.py stream
 
 ## Notes
 
-The app also documents failures in the right-side bridge log. If the device appears in `npm run check:camera` but streaming fails, the most likely causes are USB permissions, a busy/stale USB interface, or a protocol variant not handled by the Python driver.
+If the device appears in `npm run check:camera` but streaming fails, the most likely causes are USB permissions, a busy/stale USB interface, or a protocol variant not handled by the bridge.
+
+The **Enhanced** preview deliberately uses only a light sharpening amount to improve perceived detail without aggressively exaggerating JPEG ringing. For inspection where exact camera pixels matter, choose **Raw** in the preview-quality menu.
 
 ## Documentation
 

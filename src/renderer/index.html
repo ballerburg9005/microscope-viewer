@@ -10,7 +10,7 @@
     <main class="app-shell">
       <section class="viewer">
         <div class="video-stage" id="stage">
-          <img id="frame" alt="Microscope video frame" />
+          <canvas id="frame" aria-label="Microscope video frame"></canvas>
           <div class="stage-overlay">
             <span class="live-pill"><span class="live-dot"></span>Live</span>
           </div>
@@ -48,8 +48,8 @@
 
         <div class="section stats-grid">
           <div>
-            <span>Resolution</span>
-            <strong id="resolution">640 x 480</strong>
+            <span>Source</span>
+            <strong id="resolution">Detecting</strong>
           </div>
           <div>
             <span>Frames</span>
@@ -65,10 +65,19 @@
           </div>
         </div>
 
+        <div class="section quality-section">
+          <label for="qualitySelect">Preview quality</label>
+          <select id="qualitySelect">
+            <option value="enhanced" selected>Enhanced — HQ scale + mild sharpen</option>
+            <option value="raw">Raw — untouched pixels</option>
+          </select>
+          <p class="section-hint">Enhancement affects only the live preview. Saved snapshots remain the original camera JPEG.</p>
+        </div>
+
         <div class="section">
           <button id="snapshotButton" type="button" class="wide">
             <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-            Save snapshot
+            Save raw snapshot
           </button>
         </div>
 

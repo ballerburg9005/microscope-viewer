@@ -5,14 +5,14 @@
   "main": "src/main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JacobFV/microscope-viewer.git"
+    "url": "https://github.com/ballerburg9005/microscope-viewer.git"
   },
   "scripts": {
     "start": "electron .",
     "bootstrap": "npm install && python3 -m venv .venv && .venv/bin/pip install --upgrade pip && .venv/bin/pip install -r requirements.txt",
     "check:camera": ".venv/bin/python bridge/supercamera_bridge.py list",
     "setup:udev": "sudo ./scripts/install-udev-rule.sh",
-    "test": "node --check src/main.js && node --check src/preload.js && .venv/bin/python -m py_compile bridge/supercamera_bridge.py"
+    "test": "node --check src/main.js && node --check src/preload.js && node --check src/renderer/renderer.js && .venv/bin/python -m py_compile bridge/supercamera_bridge.py && .venv/bin/python bridge/test_supercamera_bridge.py"
   },
   "keywords": [
     "electron",

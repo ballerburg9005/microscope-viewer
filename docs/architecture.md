@@ -10,20 +10,39 @@ The target microscope identifies as `0329:2022 Geek szitman supercamera`. On Lin
 
 ## Design
 
-The app is split into three pieces:
+The app is split into four pieces:
 
-- `src/main.js`: Electron main process. It owns the app window, launches the Python bridge, parses JSON-line events, and handles snapshot writes.
+- `src/main.js`: Electron main process. It owns the app window, launches the Python bridge, parses JSON-line events, and handles raw snapshot writes.
 - `src/preload.js`: Safe IPC boundary exposed to the renderer under `window.microscope`.
-- `src/renderer/*`: UI for device discovery, start/stop, live image display, frame stats, logs, and snapshots.
-- `bridge/supercamera_bridge.py`: Direct USB bridge using the `supercamera` Python package. It lists supported devices and streams JPEG frames as JSON lines.
+- `src/renderer/*`: UI plus the preview-quality pipeline. The raw JPEG is decoded into a HiDPI canvas; Enhanced mode applies conservative source-resolution sharpening and high-quality resampling without modifying saved snapshots.
+- `bridge/supercamera_bridge.py`: Direct PyUSB implementation of the `com.useeplus.protocol` capture path. It lists supported devices, performs the camera handshake, parses logical USB packets, assembles JPEGs by frame ID, and streams them as JSON lines.
+
+## USB Frame Assembly
+
+The video endpoint carries logical packets with a 5-byte USB header and a 7-byte camera header followed by a JPEG chunk. The bridge validates the `AA BB` magic, command/camera ID, declared packet length, and frame ID.
+
+This matters on the `0329:2022` variant because a USB read can contain bytes beyond the declared logical packet length. Reverse-engineering notes indicate those bytes may be the beginning of the next packet and are retransmitted on the following read. The bridge therefore ignores bytes beyond the declared packet length instead of concatenating them into the current JPEG.
+
+A frame is emitted only after the frame ID changes and the assembled buffer has JPEG SOI/EOI markers.
 
 ## Data Flow
 
 ```text
-USB microscope -> supercamera Python driver -> JSON lines over stdout -> Electron main -> IPC -> renderer image element
+USB microscope
+  -> PyUSB packet parser / frame-ID assembler
+  -> raw JPEG as JSON line over stdout
+  -> Electron main process
+  -> IPC
+  -> renderer HiDPI canvas
 ```
 
-Frames are base64-encoded JPEGs. This is simple and reliable for a desktop utility, though it is not the most efficient possible transport. If frame rate becomes a problem, the bridge can be replaced with a local socket or shared file ring without changing the UI contract much.
+Snapshots are saved from the untouched raw JPEG. Preview enhancement is deliberately renderer-only.
+
+The renderer keeps only the newest pending frame while JPEG decoding is busy, so an expensive preview frame is dropped rather than allowing display latency to grow.
+
+## Resolution
+
+The bridge reads width and height from each JPEG's SOF marker. Tested devices using this protocol produce `640 x 480` JPEG frames, but the UI no longer blindly assumes that value when valid JPEG metadata is available.
 
 ## Permissions
 
@@ -36,6 +55,7 @@ The second ID is included because the same protocol appears under that alternate
 
 ## Known Limitations
 
-- The reverse-engineered driver reports `640 x 480` frames.
-- The app is Linux-oriented because the current permission setup and hardware inspection path use udev and PyUSB on Linux.
+- Preview enhancement improves perceived desktop sharpness but cannot create optical detail that is absent from the source JPEG.
+- The app is Linux-oriented because the current permission setup uses udev and PyUSB.
 - The camera can be claimed by one process at a time. If a stream fails after a previous crash, unplug and reconnect the microscope.
+- USB capture has been designed around the known `com.useeplus.protocol` packet format; unknown firmware variants may require additional handling.
